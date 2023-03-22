@@ -60,6 +60,7 @@ module.exports = {
       Store: path.resolve(__dirname, "src/store/"),
       Commands: path.resolve(__dirname, "src/commands/"),
       Utils: path.resolve(__dirname, "src/utils/"),
+      Constants: path.resolve(__dirname, "src/constants/"),
     },
   },
 

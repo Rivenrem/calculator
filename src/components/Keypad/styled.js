@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 5rem);
-  grid-template-rows: repeat(5, 5rem);
+  grid-template-rows: repeat(6, 5rem);
   gap: 0.5rem;
   padding: 1rem;
   background-color: #1a1a2e;
@@ -27,9 +27,6 @@ export const ButtonStyled = styled.button`
   }
   &.red {
     background-color: #e94560;
-    :active {
-      background-color: #e94560;
-    }
   }
   &.equal {
     grid-column: span 2;

@@ -1,13 +1,13 @@
 export default class AddCommand {
   constructor(valueToDo) {
-    this.valueToAdd = valueToDo;
+    this.value = valueToDo;
   }
 
   execute(currentValue) {
-    return Number(currentValue) + Number(this.valueToAdd);
+    return Number(currentValue) + Number(this.value);
   }
 
   undo(currentValue) {
-    return currentValue - this.valueToAdd;
+    return currentValue - this.value;
   }
 }

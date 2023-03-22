@@ -5,7 +5,7 @@ import {
   operands,
   removers,
   buttons,
-} from "../../constants/keypadButtons.js";
+} from "Constants/keypadButtons.js";
 
 export default function Keypad({
   operandsHandler,
