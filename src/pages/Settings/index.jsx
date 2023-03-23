@@ -34,14 +34,13 @@ export default function Settings() {
         <label htmlFor="themeSelect">Switch Theme</label>
         <Select
           id="themeSelect"
-          defaultValue="default"
           onChange={() => {
             selectHandler();
           }}
         >
+          <option value="default">System Theme</option>
           <option value="light">Light Theme</option>
           <option value="dark">Dark Theme</option>
-          <option value="default">System Theme</option>
         </Select>
       </Theme>
 

@@ -1,24 +1,21 @@
-import AddCommand from "Commands/addCommand.js";
-import SubtractCommand from "Commands/subtractCommand.js";
 import MultiplyCommand from "Commands/multiplyCommand.js";
 import DivideCommand from "Commands/divideCommand.js";
 import NumberCommand from "Commands/numberCommand.js";
+
+import BracketsCalculator from "Utils/bracketsCalculator";
 
 export default class ResultCalculator {
   constructor(expression) {
     this.result = 0;
     this.expression = expression;
-    console.log(expression);
   }
 
   execute() {
     this.expression = this.expression.map((command) => {
-      if (command instanceof ResultCalculator) {
-        command.execute();
-        return new NumberCommand(command.value);
-      } else if (command.value instanceof ResultCalculator) {
-        command.value.execute();
-        command.value = command.value.value;
+      if (command instanceof BracketsCalculator) {
+        return new NumberCommand(calculate(command.expression));
+      } else if (command.value instanceof BracketsCalculator) {
+        command.value = calculate(command.value.expression);
       }
 
       return command;
@@ -50,6 +47,5 @@ export default class ResultCalculator {
 
       return null;
     });
-    console.log(this.result);
   }
 }
