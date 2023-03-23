@@ -3,33 +3,30 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 5rem);
-  grid-template-rows: repeat(5, 5rem);
+  grid-template-rows: repeat(6, 5rem);
   gap: 0.5rem;
   padding: 1rem;
-  background-color: #1a1a2e;
+  background-color: var(--dark-blue);
   max-width: 28rem;
   border-radius: 4rem;
 `;
 
 export const ButtonStyled = styled.button`
-  background-color: #4b72a1;
+  background-color: var(--blue);
   border-radius: 10rem;
   font-size: x-large;
   :active {
-    background-color: #e94560;
+    background-color: var(--red);
   }
 
   &.operands {
-    background-color: #9f9090;
+    background-color: var(--brown);
     :active {
-      background-color: #e94560;
+      background-color: var(--red);
     }
   }
   &.red {
-    background-color: #e94560;
-    :active {
-      background-color: #e94560;
-    }
+    background-color: var(--red);
   }
   &.equal {
     grid-column: span 2;

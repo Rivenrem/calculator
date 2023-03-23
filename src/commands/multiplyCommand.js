@@ -1,13 +1,13 @@
 export default class MultiplyCommand {
   constructor(valueToDo) {
-    this.valueToMultiply = valueToDo;
+    this.value = valueToDo;
   }
 
   execute(currentValue) {
-    return currentValue * this.valueToMultiply;
+    return +currentValue * +this.value;
   }
 
   undo(currentValue) {
-    return currentValue / this.valueToMultiply;
+    return currentValue / this.value;
   }
 }

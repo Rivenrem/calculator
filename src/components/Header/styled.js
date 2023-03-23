@@ -7,7 +7,7 @@ export const Container = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #afafb3;
+  background-color: var(--gray);
   padding: 1rem;
   width: 100%;
 `;
@@ -15,7 +15,7 @@ export const Container = styled.header`
 export const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
-  color: #e94560;
+  color: var(--red);
 `;
 
 export const Navigation = styled.nav`
@@ -24,9 +24,9 @@ export const Navigation = styled.nav`
 `;
 
 export const Link = styled(ActiveLink)`
-  color: #1a1a2e;
+  color: var(--black);
   &.active {
-    color: #e94560;
+    color: var(--red);
     text-decoration: underline;
   }
 `;

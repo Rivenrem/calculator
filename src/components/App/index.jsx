@@ -13,7 +13,8 @@ export default function App() {
       children: [
         { path: "/", element: <Navigate to="/functional" /> },
         { path: "/functional", element: <Functional /> },
-        { path: "/settings", element: <Settings /> },
+        { path: "/functionalSettings", element: <Settings /> },
+        // { path: "/settings", element: <Settings /> },
         // { path: "/Class", element: <Class /> },
       ],
     },
