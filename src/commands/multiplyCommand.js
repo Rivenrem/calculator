@@ -4,10 +4,6 @@ export default class MultiplyCommand {
   }
 
   execute(currentValue) {
-    console.log(
-      "🚀 ~ file: multiplyCommand.js:7 ~ MultiplyCommand ~ execute ~ currentValue:",
-      currentValue
-    );
     return +currentValue * +this.value;
   }
 

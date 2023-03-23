@@ -58,6 +58,6 @@ p {
 
 @font-face {
   font-family: "Inconsolata";
-  src: url("Fonts/Inconsolata.ttf");
+  src: url("Assets/fonts/Inconsolata.ttf");
   font-style: italic;
 }

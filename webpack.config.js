@@ -56,7 +56,7 @@ module.exports = {
       Components: path.resolve(__dirname, "src/components/"),
       Pages: path.resolve(__dirname, "src/pages/"),
       Layouts: path.resolve(__dirname, "src/layouts/"),
-      Fonts: path.resolve(__dirname, "src/fonts/"),
+      Assets: path.resolve(__dirname, "src/assets/"),
       Store: path.resolve(__dirname, "src/store/"),
       Commands: path.resolve(__dirname, "src/commands/"),
       Utils: path.resolve(__dirname, "src/utils/"),
