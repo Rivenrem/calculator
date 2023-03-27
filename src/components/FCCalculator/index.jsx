@@ -6,7 +6,6 @@ import Keypad from "Components/FCKeypad/index.jsx";
 import History from "Components/FCHIstory/index.jsx";
 
 import NumberCommand from "Commands/numberCommand.js";
-import CloseParenthesisCommand from "Commands/closeParenthesisCommand.js";
 import AddCommand from "Commands/addCommand.js";
 import SubtractCommand from "Commands/subtractCommand.js";
 import MultiplyCommand from "Commands/multiplyCommand.js";
@@ -16,7 +15,7 @@ import CalculateCommand from "Commands/calculateCommand";
 import EqualCommand from "Commands/equalCommand.js";
 
 import Brackets from "Utils/brackets.js";
-import expressionToString from "Utils/expressionToString.js";
+import bracketsToString from "Utils/bracketsToString.js";
 
 import {
   ADD,
@@ -79,27 +78,6 @@ export default function Calculator() {
     setSelectedCommand(newCommand);
   }
 
-  useEffect(() => {
-    if (selectedCommand instanceof EqualCommand) {
-      const command = new CalculateCommand();
-      const result =
-        Math.round(
-          command.execute(baseBrackets.expression) * 10 ** NUMBERS_AFTER_COMMA
-        ) /
-        10 ** NUMBERS_AFTER_COMMA;
-
-      dispatch(
-        setHistory([
-          ...history,
-          [...baseBrackets.expression, new EqualCommand(result)],
-        ])
-      );
-
-      setAllToDefaultValues(result);
-      return;
-    }
-  }, [selectedCommand]);
-
   function signToggle() {
     if (sign === MINUS) {
       setSign("");
@@ -144,6 +122,21 @@ export default function Calculator() {
 
     if (value === EQUAL) {
       chagneSelectedCommand(new EqualCommand());
+
+      const command = new CalculateCommand();
+      const result =
+        Math.round(
+          command.execute(baseBrackets.expression) * 10 ** NUMBERS_AFTER_COMMA
+        ) /
+        10 ** NUMBERS_AFTER_COMMA;
+
+      baseBrackets.addOperation(new EqualCommand(result));
+
+      dispatch(
+        setHistory([...history, new Brackets(null, baseBrackets.expression)])
+      );
+
+      setAllToDefaultValues(result);
       return;
     }
 
@@ -159,48 +152,8 @@ export default function Calculator() {
 
       return;
     }
-    if (value === CLOSE_PARENTHESIS) {
-      const openParenthesisAmount = currentBrackets.parent.expression.reduce(
-        (initialValue, command) =>
-          command.value instanceof Brackets ? initialValue + 1 : initialValue,
-        0
-      );
-      const closeParenthesisAmount = currentBrackets.parent.expression.reduce(
-        (initialValue, command) =>
-          command instanceof CloseParenthesisCommand
-            ? initialValue + 1
-            : initialValue,
-        0
-      );
-
-      if (openParenthesisAmount === closeParenthesisAmount) return;
-
-      currentBrackets.parent.addOperation(new CloseParenthesisCommand());
-
-      chagneSelectedCommand(new NumberCommand());
-      setCurrentBrackets(currentBrackets.parent);
-
-      return;
-    }
 
     if (value === CLOSE_PARENTHESIS) {
-      const openParenthesisAmount = currentBrackets.parent.expression.reduce(
-        (initialValue, command) =>
-          command.value instanceof Brackets ? initialValue + 1 : initialValue,
-        0
-      );
-      const closeParenthesisAmount = currentBrackets.parent.expression.reduce(
-        (initialValue, command) =>
-          command instanceof CloseParenthesisCommand
-            ? initialValue + 1
-            : initialValue,
-        0
-      );
-
-      if (openParenthesisAmount === closeParenthesisAmount) return;
-
-      currentBrackets.parent.addOperation(new CloseParenthesisCommand());
-
       chagneSelectedCommand(new NumberCommand());
       setCurrentBrackets(currentBrackets.parent);
 
@@ -226,10 +179,6 @@ export default function Calculator() {
   }
 
   function clear() {
-    if (!baseBrackets.expression.length && !input) {
-      return;
-    }
-
     if (
       !currentBrackets.expression.length &&
       currentBrackets.parent !== currentBrackets &&
@@ -245,17 +194,33 @@ export default function Calculator() {
       return;
     }
 
-    let newCurrentBrackets = currentBrackets;
-
-    const previousCommandValue =
-      currentBrackets.expression[currentBrackets.expression.length - 1]?.value;
-
-    if (!input && previousCommandValue instanceof Brackets) {
-      newCurrentBrackets = previousCommandValue;
-      setCurrentBrackets(newCurrentBrackets);
-    }
-
     if (!input) {
+      let newCurrentBrackets = currentBrackets;
+      const previousCommandValue =
+        currentBrackets.expression[currentBrackets.expression.length - 1]
+          ?.value;
+
+      if (
+        previousCommandValue instanceof Brackets &&
+        !(selectedCommand instanceof NumberCommand)
+      ) {
+        setSelectedCommand(new NumberCommand());
+        return;
+      }
+
+      if (previousCommandValue instanceof Brackets) {
+        newCurrentBrackets = previousCommandValue;
+        setCurrentBrackets(newCurrentBrackets);
+      }
+
+      if (
+        newCurrentBrackets.expression[newCurrentBrackets.expression.length - 1]
+          ?.value instanceof Brackets
+      ) {
+        setSelectedCommand(new NumberCommand(""));
+        return;
+      }
+
       const removedOperation = newCurrentBrackets.removeOperation();
       const isRemovedValuePositive = removedOperation.value >= 0;
 
@@ -277,10 +242,11 @@ export default function Calculator() {
 
     if (!newInput) {
       setIsCommandHasNumber(false);
-    }
-    if (!baseBrackets.expression.length && !newInput) {
-      setInput("0");
-      return;
+
+      if (!baseBrackets.expression.length) {
+        setInput("0");
+        return;
+      }
     }
 
     setInput(newInput);
@@ -302,12 +268,10 @@ export default function Calculator() {
     <Container>
       <CalcContainer>
         <Display
-          value={expressionToString(
-            baseBrackets.expression,
-            currentBrackets.expression,
-            new selectedCommand.constructor(
-              getSignWithNumber(getSignWithNumber())
-            )
+          value={bracketsToString(
+            baseBrackets,
+            currentBrackets,
+            new selectedCommand.constructor(getSignWithNumber())
           )}
         />
         <Keypad

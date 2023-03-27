@@ -4,7 +4,6 @@ import MultiplyCommand from "Commands/multiplyCommand.js";
 import DivideCommand from "Commands/divideCommand";
 import RemainderCommand from "Commands/remainderCommand";
 import EqualCommand from "Commands/equalCommand";
-import CloseParenthesisCommand from "Commands/closeParenthesisCommand.js";
 
 import Brackets from "./brackets";
 
@@ -19,23 +18,19 @@ import {
   EQUAL,
 } from "Constants/keypadButtons.js";
 
-export default function expressionToString(
-  expression = [],
-  currentExpression,
+export default function bracketsToString(
+  currentBrackets,
+  lastBrackets,
   lastCommand
 ) {
-  const newExpression = [...expression];
+  const newExpression = [...currentBrackets.expression];
 
-  if (expression === currentExpression) {
+  if (lastCommand && currentBrackets === lastBrackets) {
     newExpression.push(lastCommand);
   }
 
-  return newExpression.reduce((currentValue, operation) => {
+  return newExpression.reduce((currentValue, operation, index) => {
     let str = "";
-
-    if (operation instanceof CloseParenthesisCommand) {
-      str += ` ${CLOSE_PARENTHESIS}`;
-    }
 
     if (operation instanceof EqualCommand) {
       str += ` ${EQUAL} `;
@@ -62,11 +57,29 @@ export default function expressionToString(
     }
 
     if (operation.value instanceof Brackets) {
-      return `${currentValue + str}${OPEN_PARENTHESIS} ${expressionToString(
-        operation.value.expression,
-        currentExpression,
+      let lastBracketAncestors = lastBrackets;
+      let isCurrentBracketLastBracketsAnscestor = true;
+
+      while (
+        lastBracketAncestors.parent !== lastBracketAncestors &&
+        isCurrentBracketLastBracketsAnscestor
+      ) {
+        if (currentBrackets === lastBracketAncestors.parent) {
+          isCurrentBracketLastBracketsAnscestor = false;
+        }
+
+        lastBracketAncestors = lastBracketAncestors.parent;
+      }
+
+      const isCloseParenthesisNeeded =
+        newExpression.length - 1 > index ||
+        isCurrentBracketLastBracketsAnscestor;
+
+      return `${currentValue + str}${OPEN_PARENTHESIS} ${bracketsToString(
+        operation.value,
+        lastBrackets,
         lastCommand
-      )}`;
+      )}${isCloseParenthesisNeeded ? ` ${CLOSE_PARENTHESIS}` : ""}`;
     }
 
     return currentValue + str + operation.value;

@@ -8,7 +8,6 @@ import Keypad from "Components/CCKeypad/index.jsx";
 import History from "Components/CCHistory/index.jsx";
 
 import NumberCommand from "Commands/numberCommand.js";
-import CloseParenthesisCommand from "Commands/closeParenthesisCommand.js";
 import AddCommand from "Commands/addCommand.js";
 import SubtractCommand from "Commands/subtractCommand.js";
 import MultiplyCommand from "Commands/multiplyCommand.js";
@@ -18,7 +17,7 @@ import CalculateCommand from "Commands/calculateCommand";
 import EqualCommand from "Commands/equalCommand.js";
 
 import Brackets from "Utils/brackets.js";
-import expressionToString from "Utils/expressionToString.js";
+import bracketsToString from "Utils/bracketsToString.js";
 
 import {
   ADD,
@@ -71,7 +70,7 @@ class ClassCalculator extends Component {
   };
 
   setSelectedCommand = (value) => {
-    this.setState({ selectedCommand: value }, this.selectComandCallback);
+    this.setState({ selectedCommand: value });
   };
 
   setInput = (value) => {
@@ -108,26 +107,6 @@ class ClassCalculator extends Component {
     }
 
     this.setSelectedCommand(newCommand);
-  };
-
-  selectComandCallback = () => {
-    if (this.state.selectedCommand instanceof EqualCommand) {
-      const command = new CalculateCommand();
-      const result =
-        Math.round(
-          command.execute(this.state.baseBrackets.expression) *
-            10 ** NUMBERS_AFTER_COMMA
-        ) /
-        10 ** NUMBERS_AFTER_COMMA;
-
-      this.dispatchHistory([
-        ...this.props.history,
-        [...this.state.baseBrackets.expression, new EqualCommand(result)],
-      ]);
-
-      this.setAllToDefaultValues(result);
-      return;
-    }
   };
 
   signToggle = () => {
@@ -176,6 +155,22 @@ class ClassCalculator extends Component {
 
     if (value === EQUAL) {
       this.changeSelectedCommand(new EqualCommand());
+      const command = new CalculateCommand();
+      const result =
+        Math.round(
+          command.execute(this.state.baseBrackets.expression) *
+            10 ** NUMBERS_AFTER_COMMA
+        ) /
+        10 ** NUMBERS_AFTER_COMMA;
+
+      this.state.baseBrackets.addOperation(new EqualCommand(result));
+
+      this.dispatchHistory([
+        ...this.props.history,
+        new Brackets(null, this.state.baseBrackets.expression),
+      ]);
+
+      this.setAllToDefaultValues(result);
       return;
     }
 
@@ -193,27 +188,6 @@ class ClassCalculator extends Component {
     }
 
     if (value === CLOSE_PARENTHESIS) {
-      const openParenthesisAmount =
-        this.state.currentBrackets.parent.expression.reduce(
-          (initialValue, command) =>
-            command.value instanceof Brackets ? initialValue + 1 : initialValue,
-          0
-        );
-      const closeParenthesisAmount =
-        this.state.currentBrackets.parent.expression.reduce(
-          (initialValue, command) =>
-            command instanceof CloseParenthesisCommand
-              ? initialValue + 1
-              : initialValue,
-          0
-        );
-
-      if (openParenthesisAmount === closeParenthesisAmount) return;
-
-      this.state.currentBrackets.parent.addOperation(
-        new CloseParenthesisCommand()
-      );
-
       this.changeSelectedCommand(new NumberCommand());
       this.setCurrentBrackets(this.state.currentBrackets.parent);
 
@@ -239,10 +213,6 @@ class ClassCalculator extends Component {
   };
 
   clear = () => {
-    if (!this.state.baseBrackets.expression.length && !this.state.input) {
-      return;
-    }
-
     if (
       !this.state.currentBrackets.expression.length &&
       this.state.currentBrackets.parent !== this.state.currentBrackets &&
@@ -259,19 +229,34 @@ class ClassCalculator extends Component {
       return;
     }
 
-    let newCurrentBrackets = this.state.currentBrackets;
-
-    const previousCommandValue =
-      this.state.currentBrackets.expression[
-        this.state.currentBrackets.expression.length - 1
-      ]?.value;
-
-    if (!this.state.input && previousCommandValue instanceof Brackets) {
-      newCurrentBrackets = previousCommandValue;
-      this.setCurrentBrackets(newCurrentBrackets);
-    }
-
     if (!this.state.input) {
+      let newCurrentBrackets = this.state.currentBrackets;
+      const previousCommandValue =
+        this.state.currentBrackets.expression[
+          this.state.currentBrackets.expression.length - 1
+        ]?.value;
+
+      if (
+        previousCommandValue instanceof Brackets &&
+        !(this.state.selectedCommand instanceof NumberCommand)
+      ) {
+        this.setSelectedCommand(new NumberCommand());
+        return;
+      }
+
+      if (previousCommandValue instanceof Brackets) {
+        newCurrentBrackets = previousCommandValue;
+        this.setCurrentBrackets(newCurrentBrackets);
+      }
+
+      if (
+        newCurrentBrackets.expression[newCurrentBrackets.expression.length - 1]
+          ?.value instanceof Brackets
+      ) {
+        this.setSelectedCommand(new NumberCommand(""));
+        return;
+      }
+
       const removedOperation = newCurrentBrackets.removeOperation();
       const isRemovedValuePositive = removedOperation.value >= 0;
 
@@ -293,10 +278,10 @@ class ClassCalculator extends Component {
 
     if (!newInput) {
       this.setIsCommandHasNumber(false);
-    }
-    if (!this.state.baseBrackets.expression.length && !newInput) {
-      this.setInput("0");
-      return;
+      if (!this.state.baseBrackets.expression.length) {
+        this.setInput("0");
+        return;
+      }
     }
 
     this.setInput(newInput);
@@ -316,12 +301,10 @@ class ClassCalculator extends Component {
   };
 
   render() {
-    const displayValue = expressionToString(
-      this.state.baseBrackets.expression,
-      this.state.currentBrackets.expression,
-      new this.state.selectedCommand.constructor(
-        this.getSignWithNumber(this.getSignWithNumber())
-      )
+    const displayValue = bracketsToString(
+      this.state.baseBrackets,
+      this.state.currentBrackets,
+      new this.state.selectedCommand.constructor(this.getSignWithNumber())
     );
 
     return (
