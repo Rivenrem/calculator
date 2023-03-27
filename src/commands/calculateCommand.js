@@ -1,8 +1,8 @@
-import MultiplyCommand from './multiplyCommand.js';
-import DivideCommand from './divideCommand.js';
-import RemainderCommand from './remainderCommand.js';
+import MultiplyCommand from "./multiplyCommand.js";
+import DivideCommand from "./divideCommand.js";
+import RemainderCommand from "./remainderCommand.js";
 
-import Brackets from 'Utils/brackets.js';
+import Brackets from "Utils/brackets.js";
 
 export default class CalculateCommand {
   constructor(expression) {

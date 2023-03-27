@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class ErrorBoundary extends React.Component {
   state = {
@@ -16,12 +17,16 @@ class ErrorBoundary extends React.Component {
   };
 
   render() {
-    const { hasError, error, info } = this.state;
+    const { hasError } = this.state;
 
     const { children } = this.props;
 
     return hasError ? <div>Something went wrong :C</div> : children;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.element,
+};
 
 export default ErrorBoundary;

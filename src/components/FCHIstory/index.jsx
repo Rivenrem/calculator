@@ -1,4 +1,5 @@
 import bracketsToString from "Utils/bracketsToString.js";
+import PropTypes from "prop-types";
 
 import { Container, HistoryItem } from "Components/FCHistory/styled.js";
 import { useState } from "react";
@@ -20,3 +21,7 @@ export default function History({ history = [] }) {
     </Container>
   );
 }
+
+History.propTypes = {
+  history: PropTypes.array,
+};

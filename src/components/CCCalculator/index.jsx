@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 
+import PropTypes from "prop-types";
+
 import { setHistory } from "Store/slices/calculatorSlice.js";
 
 import Display from "Components/CCDisplay/index.jsx";
@@ -78,7 +80,7 @@ class ClassCalculator extends Component {
   };
 
   setSign = (value) => {
-    this.setState({ sigh: value });
+    this.setState({ sign: value });
   };
 
   setAllToDefaultValues = (number = 0) => {
@@ -110,6 +112,7 @@ class ClassCalculator extends Component {
   };
 
   signToggle = () => {
+    debugger;
     if (this.state.sign === MINUS) {
       this.setSign("");
       return;
@@ -306,7 +309,6 @@ class ClassCalculator extends Component {
       this.state.currentBrackets,
       new this.state.selectedCommand.constructor(this.getSignWithNumber())
     );
-
     return (
       <Container>
         <CalcContainer>
@@ -322,6 +324,11 @@ class ClassCalculator extends Component {
     );
   }
 }
+
+ClassCalculator.propTypes = {
+  dispatch: PropTypes.func,
+  history: PropTypes.array,
+};
 
 const mapStateToProps = (state) => ({ history: state.calculator.history });
 

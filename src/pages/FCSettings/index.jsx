@@ -12,6 +12,8 @@ import {
   setDefaultTheme,
 } from "Store/slices/themeSlice.js";
 
+import { setHistory } from "Store/slices/calculatorSlice.js";
+
 export default function Settings() {
   const dispatch = useDispatch();
 
@@ -44,7 +46,9 @@ export default function Settings() {
         </Select>
       </Theme>
 
-      <Button>Clean All History</Button>
+      <Button onClick={() => dispatch(setHistory([]))}>
+        Clean All History
+      </Button>
     </Container>
   );
 }

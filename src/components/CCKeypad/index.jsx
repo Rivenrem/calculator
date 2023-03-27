@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { Container, ButtonStyled } from "Components/CCKeypad/styled.js";
 
@@ -69,4 +69,10 @@ class ClassKeypad extends Component {
   }
 }
 
-export default connect()(ClassKeypad);
+ClassKeypad.propTypes = {
+  numberHandler: PropTypes.func,
+  operandsHandler: PropTypes.func,
+  removersHandler: PropTypes.func,
+};
+
+export default ClassKeypad;

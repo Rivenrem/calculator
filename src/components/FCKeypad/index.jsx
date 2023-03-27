@@ -1,4 +1,5 @@
 import { Container, ButtonStyled } from "Components/FCKeypad/styled.js";
+import PropTypes from "prop-types";
 
 import {
   numbers,
@@ -60,3 +61,9 @@ export default function Keypad({
     </Container>
   );
 }
+
+Keypad.propTypes = {
+  numberHandler: PropTypes.func,
+  operandsHandler: PropTypes.func,
+  removersHandler: PropTypes.func,
+};

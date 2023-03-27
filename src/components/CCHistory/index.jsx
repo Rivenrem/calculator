@@ -1,5 +1,6 @@
 import bracketsToString from "Utils/bracketsToString.js";
 import { Component } from "react";
+import PropTypes from "prop-types";
 
 import { Container, HistoryItem } from "Components/CCHistory/styled.js";
 
@@ -32,5 +33,9 @@ class ClassHistory extends Component {
     );
   }
 }
+
+ClassHistory.propTypes = {
+  history: PropTypes.array,
+};
 
 export default ClassHistory;

@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import {
   Container,
@@ -7,7 +8,7 @@ import {
   Header,
   Theme,
   Select,
-} from "Pages/FCSettings/styled.js";
+} from "Pages/CCSettings/styled.js";
 
 import {
   setLightTheme,
@@ -15,11 +16,14 @@ import {
   setDefaultTheme,
 } from "Store/slices/themeSlice.js";
 
+import { setHistory } from "Store/slices/calculatorSlice.js";
+
 class ClassSettingsPage extends Component {
   selectHandler = () => {
     const { dispatch } = this.props;
 
     const value = document.querySelector("#themeSelect").value;
+
     if (value === "dark") {
       dispatch(setDarkTheme());
     } else if (value === "light") {
@@ -27,6 +31,11 @@ class ClassSettingsPage extends Component {
     } else {
       dispatch(setDefaultTheme());
     }
+  };
+
+  cleanHistory = () => {
+    const { dispatch } = this.props;
+    dispatch(setHistory([]));
   };
 
   render() {
@@ -41,10 +50,14 @@ class ClassSettingsPage extends Component {
             <option value="dark">Dark Theme</option>
           </Select>
         </Theme>
-        <Button>Clean All History</Button>
+        <Button onClick={this.cleanHistory}>Clean All History</Button>
       </Container>
     );
   }
 }
+
+ClassSettingsPage.propTypes = {
+  dispatch: PropTypes.func,
+};
 
 export default connect()(ClassSettingsPage);
