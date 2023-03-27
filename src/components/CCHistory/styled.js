@@ -15,7 +15,7 @@ export const Container = styled.div`
   transition: height 0.5s ease-in-out;
 
   &.open {
-    height: 36rem;
+    height: 39rem;
   }
   @media (max-width: 768px) {
     margin: 2rem 0 2rem 0;

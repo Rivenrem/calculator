@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import { setHistory } from "Store/slices/calculatorSlice.js";
 import Display from "Components/FCDisplay/index.jsx";
 import Keypad from "Components/FCKeypad/index.jsx";
 import History from "Components/FCHIstory/index.jsx";
@@ -35,9 +36,12 @@ import {
 } from "Constants/keypadButtons";
 
 import { Container, CalcContainer } from "Components/FCCalculator/styled.js";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Calculator() {
-  const [history, setHistory] = useState([]);
+  const dispatch = useDispatch();
+
+  const history = useSelector((state) => state.calculator.history);
 
   const [baseBrackets, setBaseBrackets] = useState(new Brackets());
   const [currentBrackets, setCurrentBrackets] = useState(baseBrackets);
@@ -84,10 +88,12 @@ export default function Calculator() {
         ) /
         10 ** NUMBERS_AFTER_COMMA;
 
-      setHistory([
-        ...history,
-        [...baseBrackets.expression, new EqualCommand(result)],
-      ]);
+      dispatch(
+        setHistory([
+          ...history,
+          [...baseBrackets.expression, new EqualCommand(result)],
+        ])
+      );
 
       setAllToDefaultValues(result);
       return;

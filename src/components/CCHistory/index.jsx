@@ -2,6 +2,7 @@ import expressionToString from "Utils/expressionToString.js";
 import { Component } from "react";
 
 import { Container, HistoryItem } from "Components/CCHistory/styled.js";
+import { connect } from "react-redux";
 
 class ClassHistory extends Component {
   constructor() {
@@ -17,6 +18,7 @@ class ClassHistory extends Component {
   };
 
   render() {
+    console.log(this.props.history);
     return (
       <Container
         onClick={this.toggleClass}

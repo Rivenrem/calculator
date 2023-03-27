@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Input = styled.input`
-  background-color: var(--gray);
+  width: 100%;
   margin: 1rem 0;
   padding: 2rem 1rem;
-  width: 17.5rem;
-  border-radius: 4rem;
-  text-align: center;
   font-size: x-large;
+  text-align: center;
+  overflow: scroll;
+  border-radius: 4rem;
+  background-color: var(--gray);
 `;

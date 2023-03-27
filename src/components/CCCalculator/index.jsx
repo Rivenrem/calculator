@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 
+import { setHistory } from "Store/slices/calculatorSlice.js";
+
 import Display from "Components/CCDisplay/index.jsx";
 import Keypad from "Components/CCKeypad/index.jsx";
 import History from "Components/CCHistory/index.jsx";
@@ -42,7 +44,6 @@ class ClassCalculator extends Component {
     super(props);
     const baseBrackets = new Brackets();
     this.state = {
-      history: [],
       baseBrackets,
       currentBrackets: baseBrackets,
       isCommandHasNumber: true,
@@ -52,8 +53,9 @@ class ClassCalculator extends Component {
     };
   }
 
-  setHistory = (value) => {
-    this.setState({ history: value });
+  dispatchHistory = (value) => {
+    const { dispatch } = this.props;
+    dispatch(setHistory(value));
   };
 
   setBaseBrackets = (value) => {
@@ -118,8 +120,8 @@ class ClassCalculator extends Component {
         ) /
         10 ** NUMBERS_AFTER_COMMA;
 
-      this.setHistory([
-        ...this.state.history,
+      this.dispatchHistory([
+        ...this.props.history,
         [...this.state.baseBrackets.expression, new EqualCommand(result)],
       ]);
 
@@ -332,10 +334,12 @@ class ClassCalculator extends Component {
             removersHandler={this.removersHandler}
           />
         </CalcContainer>
-        <History history={this.state.history} />
+        <History history={this.props.history} />
       </Container>
     );
   }
 }
 
-export default connect()(ClassCalculator);
+const mapStateToProps = (state) => ({ history: state.calculator.history });
+
+export default connect(mapStateToProps)(ClassCalculator);
