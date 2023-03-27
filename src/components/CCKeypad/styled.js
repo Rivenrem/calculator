@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 5rem);
-  grid-template-rows: repeat(6, 5rem);
+  grid-template-columns: repeat(4, 4.5rem);
+  grid-template-rows: repeat(6, 4.5rem);
   gap: 0.5rem;
   padding: 1rem;
   background-color: var(--dark-blue);
-  max-width: 28rem;
   border-radius: 4rem;
 `;
 

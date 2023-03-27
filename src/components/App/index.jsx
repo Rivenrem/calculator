@@ -1,8 +1,10 @@
 import { useRoutes, Navigate } from "react-router-dom";
 
 import Main from "Pages/Main/index.jsx";
-import Functional from "Pages/Functional/index.jsx";
-import Settings from "Pages/Settings/index.jsx";
+import FCPage from "Pages/FC/index.jsx";
+import FCSettings from "Pages/FCSettings/index.jsx";
+import CCPage from "Pages/CC/index.jsx";
+import CCSettings from "Pages/CCSettings/index.jsx";
 
 import "./main.css";
 
@@ -12,10 +14,10 @@ export default function App() {
       element: <Main />,
       children: [
         { path: "/", element: <Navigate to="/functional" /> },
-        { path: "/functional", element: <Functional /> },
-        { path: "/functionalSettings", element: <Settings /> },
-        // { path: "/settings", element: <Settings /> },
-        // { path: "/Class", element: <Class /> },
+        { path: "/FC", element: <FCPage /> },
+        { path: "/FCSettings", element: <FCSettings /> },
+        { path: "/CC", element: <CCPage /> },
+        { path: "/CCSettings", element: <CCSettings /> },
       ],
     },
   ]);

@@ -3,15 +3,17 @@ import {
   Container,
   Navigation,
   Link,
-} from "Components/Header/styled.js";
+} from "Components/FCHeader/styled.js";
 
 export default function Header() {
   return (
     <Container>
       <Title>Calculator</Title>
+
+      <Link to="/CC">Switch To CC</Link>
       <Navigation>
-        <Link to="/functional">Home</Link>
-        <Link to="/functionalSettings">Settings</Link>
+        <Link to="/FC">Home</Link>
+        <Link to="/FCSettings">Settings</Link>
       </Navigation>
     </Container>
   );

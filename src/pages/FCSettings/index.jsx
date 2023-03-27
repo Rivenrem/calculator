@@ -4,7 +4,7 @@ import {
   Header,
   Theme,
   Select,
-} from "Pages/Settings/styled.js";
+} from "Pages/FCSettings/styled.js";
 import { useDispatch } from "react-redux";
 import {
   setLightTheme,
