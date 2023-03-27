@@ -1,8 +1,8 @@
 import NumberCommand from "Commands/numberCommand.js";
 
-export default class BracketsCalculator {
-  constructor(parent = null) {
-    this.expression = [];
+export default class Brackets {
+  constructor(parent = null, expression = []) {
+    this.expression = expression;
     this._parent = parent;
   }
 
@@ -13,10 +13,10 @@ export default class BracketsCalculator {
   }
 
   addOperation(operation) {
-    if (!this.expression.length && !(operation instanceof NumberCommand)) {
-      this.expression.push(new NumberCommand());
-    }
-
     this.expression.push(operation);
+  }
+
+  removeOperation() {
+    return this.expression.pop();
   }
 }

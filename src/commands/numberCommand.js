@@ -1,5 +1,5 @@
 export default class NumberCommand {
-  constructor(value) {
+  constructor(value = 0) {
     this.value = value;
   }
 

@@ -4,7 +4,7 @@ export default class MultiplyCommand {
   }
 
   execute(currentValue) {
-    return +currentValue * +this.value;
+    return currentValue * this.value;
   }
 
   undo(currentValue) {

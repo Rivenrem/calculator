@@ -4,7 +4,7 @@ export default class SubtractCommand {
   }
 
   execute(currentValue) {
-    return Number(currentValue) - Number(this.value);
+    return currentValue - this.value;
   }
 
   undo(currentValue) {
