@@ -1,0 +1,4 @@
+[color-scheme=light]{color-scheme:light;--brown: #9f9090;--gray: #afafb3;--red: #e94560;--blue: #4b72a1;--dark-blue: #1a1a2e;--black: #000000}[color-scheme=dark]{color-scheme:dark;--brown: #3e454d;--gray: #1b1b1b;--red: #e94560;--blue: #17304e;--dark-blue: #000000;--black: #8b8bfe}
+*{padding:0px;margin:0px;border:none;font-family:Inconsolata}html,body{height:100%}*,*::before,*::after{box-sizing:border-box}:focus,:active{outline:none}a:focus,a:active{outline:none}a,a:link,a:visited{-webkit-text-decoration:none;text-decoration:none}a:hover{-webkit-text-decoration:none;text-decoration:none}aside,nav,footer,header,section,main{display:block}h1,h2,h3,h4,h5,h6,p{font-size:inherit;font-weight:inherit}@font-face{font-family:"Inconsolata";src:url(/assets/1f56ee050cf1f63c7314.ttf);font-style:italic}
+
+/*# sourceMappingURL=main.92d01c48052106761af5.css.map*/

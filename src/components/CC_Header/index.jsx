@@ -13,11 +13,11 @@ class CC_Header extends Component {
       <Container>
         <Title>Calculator</Title>
 
-        <Link to="/FC">Switch To FC</Link>
+        <Link to="/calculator/FC">Switch To FC</Link>
 
         <Navigation>
-          <Link to="/CC">Home</Link>
-          <Link to="/CCSettings">Settings</Link>
+          <Link to="/calculator/CC">Home</Link>
+          <Link to="/calculator/CCSettings">Settings</Link>
         </Navigation>
       </Container>
     );

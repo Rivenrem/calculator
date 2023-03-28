@@ -13,11 +13,11 @@ export default function App() {
     {
       element: <Main />,
       children: [
-        { path: "/", element: <Navigate to="/functional" /> },
-        { path: "/FC", element: <FC_Page /> },
-        { path: "/FCSettings", element: <FC_Settings /> },
-        { path: "/CC", element: <CC_Page /> },
-        { path: "/CCSettings", element: <CC_Settings /> },
+        { path: "/calculator", element: <Navigate to="/calculator/FC" /> },
+        { path: "/calculator/FC", element: <FC_Page /> },
+        { path: "/calculator/FCSettings", element: <FC_Settings /> },
+        { path: "/calculator/CC", element: <CC_Page /> },
+        { path: "/calculator/CCSettings", element: <CC_Settings /> },
       ],
     },
   ]);

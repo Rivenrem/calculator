@@ -10,11 +10,11 @@ export default function FC_Header() {
     <Container>
       <Title>Calculator</Title>
 
-      <Link to="/CC">Switch To CC</Link>
+      <Link to="/calculator/CC">Switch To CC</Link>
 
       <Navigation>
-        <Link to="/FC">Home</Link>
-        <Link to="/FCSettings">Settings</Link>
+        <Link to="/calculator/FC">Home</Link>
+        <Link to="/calculator/FCSettings">Settings</Link>
       </Navigation>
     </Container>
   );
