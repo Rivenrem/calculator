@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 
-import FCHeader from "Components/FCHeader/index.jsx";
-import CCHeader from "Components/CCHeader/index.jsx";
+import FC_Header from "Components/FC_Header/index.jsx";
+import CC_Header from "Components/CC_Header/index.jsx";
 
 import { Container } from "Pages/Main/styled.js";
 
@@ -14,7 +14,7 @@ export default function Main() {
   return (
     <div color-scheme={isLightTheme ? "light" : "dark"}>
       <Container>
-        {location.pathname.includes("FC") ? <FCHeader /> : <CCHeader />}
+        {location.pathname.includes("FC") ? <FC_Header /> : <CC_Header />}
         <Outlet />
       </Container>
     </div>
