@@ -7207,7 +7207,7 @@ function App() {
     children: [{
       path: "/calculator",
       element: /*#__PURE__*/React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Navigate, {
-        to: "/FC"
+        to: "/calculator/FC"
       })
     }, {
       path: "/calculator/FC",
